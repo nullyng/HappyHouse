@@ -48,7 +48,7 @@
                     class="my-4"
                     >Sign In</base-button
                   > -->
-                  <b-button variant="primary" @click="fetchData">
+                  <b-button variant="primary" @click="confirm">
                     Sign In
                   </b-button>
                 </div>
@@ -119,8 +119,12 @@
 import axios from "axios";
 import Modal from "@/components/Modal.vue";
 import { fetchData } from "@/api/user.js";
+import { mapState, mapActions } from "vuex";
+
+const userStore = "userStore";
 
 export default {
+  name: "LoginView",
   components: {
     Modal,
   },
@@ -136,23 +140,24 @@ export default {
       findpwd_phone: null,
     };
   },
+  computed: {
+    ...mapState(userStore, ["isLogin", "isLoginError"]),
+  },
   methods: {
-    fetchData() {
-      fetchData(
-        this.id,
-        this.pwd,
-        (res) => {
-          axios.defaults.withCredentials = true;
-          if(res.data.message === "success") {
-            console.log(res);
-            let token = res.data["access-token"];
-            sessionStorage.setItem("access-token", token);
-            this.$router.push("/");
-          }
-        },
-        (error) => {}
-      );
+    ...mapActions(userStore, ["userConfirm", "getUserInfo"]),
+    async confirm() {
+      const user = {
+        id: this.id,
+        pwd: this.pwd,
+      };
+      await this.userConfirm(user);
+      let token = sessionStorage.getItem("access-token");
+      if (this.isLogin) {
+        await this.getUserInfo(token);
+        this.$router.push({ name: "home" });
+      }
     },
+
     findPwd() {
       axios
         .get(

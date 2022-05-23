@@ -17,14 +17,13 @@
           <close-button @click="closeMenu"></close-button>
         </div>
       </div>
-
       <ul class="navbar-nav ml-lg-auto">
-        <li class="nav-item" v-if="!loginToken">
+        <li class="nav-item" v-if="!userInfo">
           <a class="nav-link nav-link-icon font-weight-bold" href="/user/login">
             로그인
           </a>
         </li>
-        <li class="nav-item" v-if="!loginToken">
+        <li class="nav-item" v-if="!userInfo">
           <a
             class="nav-link nav-link-icon font-weight-bold"
             href="/user/register"
@@ -32,12 +31,12 @@
             회원가입
           </a>
         </li>
-        <li class="nav-item" v-if="loginToken" @click="onLogout">
+        <li class="nav-item" v-if="userInfo" @click.prevent="onLogout">
           <a class="nav-link nav-link-icon font-weight-bold" href="/">
             로그아웃
           </a>
         </li>
-        <li class="nav-item" v-if="loginToken">
+        <li class="nav-item" v-if="userInfo">
           <a
             class="nav-link nav-link-icon font-weight-bold"
             href="/user/register"
@@ -63,43 +62,29 @@
 import BaseNav from "@/components/BaseNav";
 import BaseDropdown from "@/components/BaseDropdown";
 import CloseButton from "@/components/CloseButton";
-import { logout } from "@/api/user";
+import { mapActions, mapState, mapMutations } from "vuex";
+
+const userStore = "userStore";
 
 export default {
   name: "AppHeader",
-  data() {
-    return {
-      isLogin: false,
-    };
-  },
   components: {
     BaseNav,
     CloseButton,
     BaseDropdown,
   },
   computed: {
-    loginToken: function () {
-      console.log("loginToken");
-      let token = sessionStorage.getItem("access-token");
-      if (token != null) {
-        this.isLogin = true;
-      } else {
-        this.isLogin = false;
-      }
-      return this.isLogin;
-    },
+    ...mapState(userStore, ["isLogin", "userInfo"]),
   },
   methods: {
+    ...mapMutations(userStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
+    ...mapActions(userStore, ["logout"]),
     onLogout() {
-      logout(
-        (response) => {
-          sessionStorage.removeItem("access-token");
-          if (this.$route.path != "/") this.$router.push({ name: "home" });
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+      this.logout();
+      // this.SET_IS_LOGIN(false);
+      this.SET_USER_INFO(null);
+      sessionStorage.removeItem("access-token");
+      if (this.$route.path != "/") this.$router.push({ name: "home" });
     },
   },
 };
