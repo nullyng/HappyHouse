@@ -1,5 +1,5 @@
 import axios from "axios";
-axios.defaults.withCredentials = true
+axios.defaults.withCredentials = true;
 import { API_BASE_URL } from "@/config";
 
 axios.defaults.withCredentials = true;
@@ -9,7 +9,7 @@ function apiInstance() {
   const instance = axios.create({
     baseURL: API_BASE_URL,
     headers: {
-      "Content-type": "application/json",
+      "Content-type": "application/json; charset=UTF-8",
     },
   });
   return instance;

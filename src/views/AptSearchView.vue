@@ -30,49 +30,65 @@
                   <small>검색하고 싶은 지역을 선택하세요.</small>
                 </div>
               </template>
-              <div
-                style="
-                  display: flex;
-                  justify-content: space-evenly;
-                  flex-wrap: wrap;
-                "
-              >
-                <select
-                  id="sidoList"
-                  class="form-select"
-                  aria-label="시/도 선택"
-                  v-model="sido"
-                  @change="gugunList"
-                >
-                  <option v-for="item in sidos" :value="item" :key="item.code">
-                    {{ item.name }}
-                  </option>
-                </select>
-                <select
-                  id="gugunList"
-                  class="form-select"
-                  aria-label="구/군 선택"
-                  v-model="gugun"
-                  @change="dongList"
-                >
-                  <option v-for="item in guguns" :value="item" :key="item.code">
-                    {{ item.name }}
-                  </option>
-                </select>
-
-                <select
-                  id="dongList"
-                  class="form-select"
-                  aria-label="동 선택"
-                  v-model="dong"
-                >
-                  <option v-for="item in dongs" :value="item" :key="item.code">
-                    {{ item.name }}
-                  </option>
-                </select>
-
+              <div class="select-boxes">
+                <div class="select-box col">
+                  <h5>시/도</h5>
+                  <select
+                    id="sidoList"
+                    class="form-select"
+                    aria-label="시/도 선택"
+                    v-model="sido"
+                    @change="gugunList"
+                  >
+                    <option
+                      v-for="item in sidos"
+                      :value="item"
+                      :key="item.code"
+                    >
+                      {{ item.name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="select-box col">
+                  <h5>구/군</h5>
+                  <select
+                    id="gugunList"
+                    class="form-select"
+                    aria-label="구/군 선택"
+                    v-model="gugun"
+                    @change="dongList"
+                  >
+                    <option
+                      v-for="item in guguns"
+                      :value="item"
+                      :key="item.code"
+                    >
+                      {{ item.name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="select-box col">
+                  <h5>동</h5>
+                  <select
+                    id="dongList"
+                    class="form-select"
+                    aria-label="동 선택"
+                    v-model="dong"
+                  >
+                    <option
+                      v-for="item in dongs"
+                      :value="item"
+                      :key="item.code"
+                    >
+                      {{ item.name }}
+                    </option>
+                  </select>
+                </div>
                 <div class="btn-wrapper ml-2 mr-2">
-                  <b-button variant="primary" @click="searchByDongName">
+                  <b-button
+                    variant="primary"
+                    @click="searchByAptNameAndDongName"
+                  >
                     검색하기
                   </b-button>
                 </div>
@@ -89,9 +105,22 @@
             <h3 style="font-weight: bold">{{ fullName }}</h3>
             <div class="row mt-4">
               <div class="col mt-lg-0">
-                <google-map></google-map>
+                <google-map
+                  :aptlist="aptlist"
+                  :lat="dong.lat"
+                  :lng="dong.lng"
+                ></google-map>
               </div>
-              <div class="col aptlist"></div>
+              <div class="col aptlist p-3" v-if="fullName">
+                <apt-list-item
+                  v-for="item in aptlist"
+                  :key="item.aptCode"
+                  :param="item"
+                ></apt-list-item>
+              </div>
+              <div class="col" v-else>
+                지역을 선택하시면 아파트 목록이 표시됩니다.
+              </div>
             </div>
           </div>
         </div>
@@ -102,12 +131,19 @@
 <script>
 import BaseDropdown from "@/components/BaseDropdown.vue";
 import GoogleMap from "@/views/components/Apt/GoogleMap.vue";
-import { sidoList, gugunList, dongList } from "@/api/house.js";
+import AptListItem from "@/views/components/Apt/AptListItem.vue";
+import {
+  sidoList,
+  gugunList,
+  dongList,
+  searchByAptNameAndDongName,
+} from "@/api/house.js";
 
 export default {
   components: {
     BaseDropdown: BaseDropdown,
     GoogleMap: GoogleMap,
+    AptListItem: AptListItem,
   },
   data() {
     return {
@@ -127,9 +163,7 @@ export default {
         (res) => {
           this.sidos = res.data;
         },
-        (err) => {
-          console.log(err);
-        }
+        (err) => {}
       );
     },
     gugunList() {
@@ -137,10 +171,9 @@ export default {
         this.sido.code + "*",
         (res) => {
           this.guguns = res.data;
+          this.dongs = [];
         },
-        (err) => {
-          console.log("에러" + err);
-        }
+        (err) => {}
       );
     },
     dongList() {
@@ -149,12 +182,19 @@ export default {
         (res) => {
           this.dongs = res.data;
         },
-        (err) => {
-          console.log(err);
-        }
+        (err) => {}
       );
     },
-    searchByDongName() {},
+    searchByAptNameAndDongName() {
+      searchByAptNameAndDongName(
+        "",
+        this.dong.name,
+        (res) => {
+          this.aptlist = res.data;
+        },
+        (err) => {}
+      );
+    },
   },
   computed: {
     // 시/도 + 구/군 + 동
@@ -178,8 +218,35 @@ export default {
   }
 }
 
+.select-boxes {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.select-box {
+  text-align: center;
+}
+
 div.aptlist {
-  border: 1px solid #5e72e4;
-  border-radius: 1rem;
+  overflow: auto;
+  height: 600px;
+}
+
+div.aptlist::-webkit-scrollbar {
+  width: 10px;
+}
+
+div.aptlist::-webkit-scrollbar-thumb {
+  background-color: #5e72e4;
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+div.aptlist::-webkit-scrollbar-track {
+  border-radius: 10px;
+  width: 15px;
+  background-color: rgba(172, 172, 172, 0.2);
 }
 </style>

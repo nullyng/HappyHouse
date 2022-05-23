@@ -14,4 +14,11 @@ function dongList(regcode, success, fail) {
   api.get(`/code?regcode=${regcode}`).then(success).catch(fail);
 }
 
-export { sidoList, gugunList, dongList };
+function searchByAptNameAndDongName(aptName, dongName, success, fail) {
+  api
+    .get(`/houseInfo?aptName=${aptName}&dongName=${dongName}`)
+    .then(success)
+    .catch(fail);
+}
+
+export { sidoList, gugunList, dongList, searchByAptNameAndDongName };
