@@ -37,56 +37,44 @@
                   flex-wrap: wrap;
                 "
               >
-                <base-dropdown class="ml-2 mr-2">
-                  <base-button
-                    slot="title"
-                    type="secondary"
-                    class="dropdown-toggle"
-                    style="width: 130%; font-size: large"
-                  >
-                    시/도
-                  </base-button>
-                  <a class="dropdown-item" href="#">대구특별시</a>
-                  <a class="dropdown-item" href="#">서울광역시</a>
-                  <a class="dropdown-item" href="#">제주도르도르</a>
-                </base-dropdown>
-                <base-dropdown class="ml-2 mr-2">
-                  <base-button
-                    slot="title"
-                    type="secondary"
-                    class="dropdown-toggle"
-                    style="width: 130%; font-size: large"
-                  >
-                    구/군
-                  </base-button>
-                  <a class="dropdown-item" href="#">남구</a>
-                  <a class="dropdown-item" href="#">동구</a>
-                  <a class="dropdown-item" href="#">서구</a>
-                </base-dropdown>
-                <base-dropdown class="ml-2 mr-2">
-                  <base-button
-                    slot="title"
-                    type="secondary"
-                    class="dropdown-toggle"
-                    style="width: 130%; font-size: large"
-                  >
-                    동
-                  </base-button>
-                  <a class="dropdown-item" href="#">대명동</a>
-                  <a class="dropdown-item" href="#">봉덕동</a>
-                  <a class="dropdown-item" href="#">이천농</a>
-                </base-dropdown>
+                <select
+                  id="sidoList"
+                  class="form-select"
+                  aria-label="시/도 선택"
+                  v-model="sido"
+                  @change="gugunList"
+                >
+                  <option v-for="item in sidos" :value="item" :key="item.code">
+                    {{ item.name }}
+                  </option>
+                </select>
+                <select
+                  id="gugunList"
+                  class="form-select"
+                  aria-label="구/군 선택"
+                  v-model="gugun"
+                  @change="dongList"
+                >
+                  <option v-for="item in guguns" :value="item" :key="item.code">
+                    {{ item.name }}
+                  </option>
+                </select>
+
+                <select
+                  id="dongList"
+                  class="form-select"
+                  aria-label="동 선택"
+                  v-model="dong"
+                >
+                  <option v-for="item in dongs" :value="item" :key="item.code">
+                    {{ item.name }}
+                  </option>
+                </select>
+
                 <div class="btn-wrapper ml-2 mr-2">
-                  <base-button
-                    tag="a"
-                    href=""
-                    class="mb-3 mb-sm-0"
-                    type="primary"
-                    icon="ni ni-check-bold"
-                    style="font-size: large"
-                  >
+                  <b-button variant="primary" @click="searchByDongName">
                     검색하기
-                  </base-button>
+                  </b-button>
                 </div>
               </div>
             </card>
@@ -98,7 +86,7 @@
       <div class="container">
         <div class="row justify-content-center mt-md">
           <div class="col">
-            <h3 style="font-weight: bold">서울특별시 종로구 숭인동</h3>
+            <h3 style="font-weight: bold">{{ fullName }}</h3>
             <div class="row mt-4">
               <div class="col mt-lg-0">
                 <google-map></google-map>
@@ -114,6 +102,7 @@
 <script>
 import BaseDropdown from "@/components/BaseDropdown.vue";
 import GoogleMap from "@/views/components/Apt/GoogleMap.vue";
+import { sidoList, gugunList, dongList } from "@/api/house.js";
 
 export default {
   components: {
@@ -126,15 +115,59 @@ export default {
       sido: "",
       gugun: "",
       dong: "",
-      // dropdown에 표시할 배열
       sidos: [],
       guguns: [],
       dongs: [],
       aptlist: [],
     };
   },
+  methods: {
+    sidoList() {
+      sidoList(
+        (res) => {
+          this.sidos = res.data;
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    },
+    gugunList() {
+      gugunList(
+        this.sido.code + "*",
+        (res) => {
+          this.guguns = res.data;
+        },
+        (err) => {
+          console.log("에러" + err);
+        }
+      );
+    },
+    dongList() {
+      dongList(
+        this.gugun.code + "*",
+        (res) => {
+          this.dongs = res.data;
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    },
+    searchByDongName() {},
+  },
+  computed: {
+    // 시/도 + 구/군 + 동
+    fullName: function () {
+      let sidoName = this.sido.name === undefined ? " " : this.sido.name;
+      let gugunName = this.gugun.name === undefined ? " " : this.gugun.name;
+      let dongName = this.dong.name === undefined ? " " : this.dong.name;
+      return sidoName + " " + gugunName + " " + dongName;
+    },
+  },
   created() {
     // 시/도, 구/군, 동 정보 가져오기
+    this.sidoList();
   },
 };
 </script>
