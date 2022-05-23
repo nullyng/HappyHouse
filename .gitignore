@@ -2,7 +2,7 @@
 node_modules
 /dist
 /config
-/src/config
+src/config/
 
 # local env files
 .env.local
