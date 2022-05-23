@@ -23,6 +23,8 @@ async function findById(userid, success, fail) {
   await api.get(`/user/info/${userid}`).then(success).catch(fail);
 }
 
-// function logout(success, fail)
+function logout(success, fail) {
+  api.get(`/user/logout`).then(success).catch(fail);
+}
 
-export { fetchData, getData, updateUser, deleteUser, findById };
+export { fetchData, getData, updateUser, deleteUser, findById, logout };

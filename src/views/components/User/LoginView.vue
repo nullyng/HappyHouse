@@ -143,7 +143,12 @@ export default {
         this.pwd,
         (res) => {
           axios.defaults.withCredentials = true;
-          this.$router.push(`/user/profile`);
+          if(res.data.message === "success") {
+            console.log(res);
+            let token = res.data["access-token"];
+            sessionStorage.setItem("access-token", token);
+            this.$router.push("/");
+          }
         },
         (error) => {}
       );
