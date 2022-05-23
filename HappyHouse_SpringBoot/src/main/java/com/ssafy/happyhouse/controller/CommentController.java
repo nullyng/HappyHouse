@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/comment")
+@CrossOrigin(origins = "http://localhost:8081", allowCredentials = "true")
 public class CommentController {
     private static final Logger log = LoggerFactory.getLogger(CommentController.class);
     @Autowired

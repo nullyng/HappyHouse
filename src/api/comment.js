@@ -7,7 +7,7 @@ function getCommentList(id, success, fail) {
 }
 
 function createComment(comment, success, fail) {
-  api.post(`/comment/${comment.id}/${comment.boardId}`, comment).then(success).catch(fail);
+  api.post(`/comment/${comment.writer}/${comment.boardId}`, comment).then(success).catch(fail);
 }
 
 export { getCommentList, createComment };

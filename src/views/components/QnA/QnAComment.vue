@@ -1,19 +1,20 @@
 <template>
-  <div class="container pt-lg-md border shadow p-5 mt-5 mb-5 bg-white">
+  <div class="container mb-5">
     <b-input-group>
       <b-form-input v-model="contents"></b-form-input>
       <b-input-group-append>
-        <b-button variant="primary" @click="createComment">답변 등록</b-button>
+        <b-button variant="primary" @click="registerComment">답변 등록</b-button>
       </b-input-group-append>
     </b-input-group>
     <b-container id="commentList">
-      <div class="mt-3">
+      <div class="mt-3" v-for="(item, index) in commentList" :key="index">
         <b-row class="flex-column border border-light rounded p-4">
           <b-row>
-            <b-col> admin | 2022-05-19 </b-col>
+            <b-col> {{ item.writer }} | {{ item.regDate }} </b-col>
+            <b-col> <span>수정</span> | <span>삭제</span> </b-col>
           </b-row>
           <b-row class="mt-3">
-            <b-col>답변이 어쩌고</b-col>
+            <b-col>{{ item.contents }}</b-col>
           </b-row>
         </b-row>
       </div>
@@ -22,10 +23,10 @@
 </template>
 
 <script>
-import { getCommentList, createComment } from "@/api/comment";
-import { mapGetters } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
 
 const userStore = "userStore";
+const commentStore = "commentStore";
 
 export default {
   name: "QnaComment",
@@ -38,36 +39,23 @@ export default {
     boardId: String,
   },
   created() {
-    getCommentList(
-      this.boardId,
-      (response) => {
-        console.log(response);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    this.$store.dispatch(`commentStore/getCommentList`, this.boardId);
+  },
+  computed: {
+    ...mapState(commentStore, ["commentList"]),
   },
   methods: {
     ...mapGetters(userStore, ["checkUserInfo"]),
-    createComment() {
+    ...mapActions(commentStore, ["createComment"]),
+    registerComment() {
       const userInfo = this.checkUserInfo();
-      // console.log(userInfo);
       const comment = {
-        id: userInfo.userId,
+        writer: userInfo.userId,
         boardId: this.boardId,
         contents: this.contents,
       };
-      console.log(comment);
-    //   createComment(
-    //     comment,
-    //     (response) => {
-    //       console.log(response);
-    //     },
-    //     (error) => {
-    //       console.log(response);
-    //     }
-    //   );
+      console.log("register!");
+      this.createComment(comment);
     },
   },
 };

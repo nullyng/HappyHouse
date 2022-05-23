@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
 
 import userStore from "./modules/userStore";
+import commentStore from "./modules/commentStore";
 
 Vue.use(Vuex);
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
   actions: {},
   modules: {
     userStore,
+    commentStore,
   },
   plugins: [
     createPersistedState({
