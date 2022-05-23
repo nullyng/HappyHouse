@@ -62,7 +62,7 @@
         ></b-pagination> -->
     </div>
     <div class="d-flex flex-row-reverse mb-5">
-      <b-button variant="primary" @click="confirm">글작성</b-button>
+      <b-button variant="primary" :to="{name:'write'}">글작성</b-button>
     </div>
     <!-- <b-container>
       {{ selected }}
@@ -183,11 +183,6 @@ export default {
         this.$router.push({name: 'write'});
       }
     }
-  },
-  computed: {
-    rows() {
-      return this.items.length;
-    },
   },
 };
 </script>

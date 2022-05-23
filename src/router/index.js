@@ -40,6 +40,15 @@ export default new Router({
           path: "profile",
           name: "profile",
           component: () => import("@/views/components/User/Profile.vue"),
+          beforeEnter: function(to, from, next) {
+            let token = sessionStorage.getItem("access-token");
+            if (token == null) {
+              alert("로그인이 필요합니다.");
+              next("/user");
+            } else {
+              next();
+            }
+          },
         },
       ],
     },
@@ -68,66 +77,32 @@ export default new Router({
           path: "write",
           name: "write",
           component: () => import("@/views/components/QnA/QnAWrite.vue"),
+          beforeEnter: function(to, from, next) {
+            let token = sessionStorage.getItem("access-token");
+            if (token == null) {
+              alert("로그인이 필요합니다.");
+              next("/user");
+            } else {
+              next();
+            }
+          },
         },
         {
           path: "modify/:no",
           name: "modify",
           component: () => import("@/views/components/QnA/QnAModify.vue"),
+          beforeEnter: function(to, from, next) {
+            let token = sessionStorage.getItem("access-token");
+            if (token == null) {
+              alert("로그인이 필요합니다.");
+              next("/user");
+            } else {
+              next();
+            }
+          },
         },
       ],
     },
-    // {
-    //   path: "/",
-    //   name: "home",
-    //   components: {
-    //     header: AppHeader,
-    //     default: HomeView,
-    //     footer: AppFooter,
-    //   },
-    // },
-    // {
-    //   path: "/qna",
-    //   name: "qna",
-    //   components: {
-    //     header: AppHeader,
-    //     default: QnAView,
-    //     footer: AppFooter,
-    //   },
-    //   children: [
-    //     {
-    //       path: "list",
-    //       name: "list",
-    //       component: () => import("@/views/components/QnA/QnADetail.vue"),
-    //     },
-    //   ]
-    // },
-    // {
-    //   path: "/login",
-    //   name: "login",
-    //   components: {
-    //     header: AppHeader,
-    //     default: LoginView,
-    //     footer: AppFooter,
-    //   },
-    // },
-    // {
-    //   path: "/register",
-    //   name: "register",
-    //   components: {
-    //     header: AppHeader,
-    //     default: RegisterView,
-    //     footer: AppFooter,
-    //   },
-    // },
-    // {
-    //   path: "/search",
-    //   name: "search",
-    //   components: {
-    //     header: AppHeader,
-    //     default: AptSearchView,
-    //     footer: AppFooter,
-    //   },
-    // },
   ],
   scrollBehavior: (to) => {
     if (to.hash) {
