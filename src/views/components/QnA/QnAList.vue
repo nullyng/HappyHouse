@@ -54,15 +54,16 @@
           }}</router-link>
         </template> -->
       </b-table>
-      <!-- <b-pagination
-          v-model="currentPage"
-          :total-rows="rows"
-          :per-page="perPage"
-          aria-controls="qnaList"
-        ></b-pagination> -->
+      <b-pagination
+        class="customPagination"
+        v-model="currentPage"
+        :total-rows="rows"
+        :per-page="perPage"
+        aria-controls="qnaList"
+      ></b-pagination>
     </div>
     <div class="d-flex flex-row-reverse mb-5">
-      <b-button variant="primary" :to="{name:'write'}">글작성</b-button>
+      <b-button variant="primary" :to="{ name: 'write' }">글작성</b-button>
     </div>
     <!-- <b-container>
       {{ selected }}
@@ -85,7 +86,6 @@ export default {
   components: { BasePagination, BaseRadio },
   data() {
     return {
-      searchContents: null,
       currentPage: 1,
       perPage: 3,
       radio: {
@@ -107,6 +107,7 @@ export default {
       ],
       items: [],
       selected: null,
+      searchContents: null,
       options: [
         { value: null, text: "선택하세요" },
         { value: "title", text: "제목" },
@@ -115,11 +116,15 @@ export default {
       ],
     };
   },
-
+  computed: {
+    rows() {
+      return this.items.length;
+    },
+  },
   created() {
     listQnA(
       (response) => {
-        console.log(response);
+        // console.log(response);
         this.items = response.data;
       },
       (error) => {
@@ -175,16 +180,25 @@ export default {
     },
     confirm() {
       let token = sessionStorage.getItem("access-token");
-      if(token == null) {
+      if (token == null) {
         alert("로그인이 필요한 기능입니다.");
         this.$router.push("/user");
+      } else {
+        this.$router.push({ name: "write" });
       }
-      else {
-        this.$router.push({name: 'write'});
-      }
-    }
+    },
   },
 };
 </script>
 
-<style></style>
+<style>
+.customPagination > li > a {
+  color: red;
+}
+
+.customPagination > li.active > a,
+.customPagination > li > a:hover {
+  color: white;
+  background-color: green !important;
+}
+</style>

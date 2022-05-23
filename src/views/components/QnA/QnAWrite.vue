@@ -43,7 +43,7 @@ export default {
       createQnA(
         item,
         (response) => {
-          console.log(response);
+          // console.log(response);
           this.$router.push("/qna");
         },
         (error) => {
