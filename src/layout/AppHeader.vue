@@ -37,12 +37,18 @@
           </a>
         </li>
         <li class="nav-item" v-if="userInfo">
-          <a
+          <!-- <a
             class="nav-link nav-link-icon font-weight-bold"
             href="/user/register"
           >
             내정보
-          </a>
+          </a> -->
+          <router-link
+            class="nav-link nav-link-icon font-weight-bold"
+            :to="{ name: 'profile' }"
+          >
+            내정보
+          </router-link>
         </li>
         <li class="nav-item">
           <a class="nav-link nav-link-icon font-weight-bold" href="/search">
