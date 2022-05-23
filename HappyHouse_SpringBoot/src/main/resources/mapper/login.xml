@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.happyhouse.model.mapper.UserMapper">
+
+	<select id="LoginUserDto" resultType="UserDto">
+		<![CDATA[
+			select *
+			from users
+			where userId=#{userId} and userPwd=#{userPwd}		
+		]]>
+	</select>
+
+	<select id="findPwd" resultType="String">
+		<![CDATA[
+			select userPwd
+			from users
+			where userName=#{userName} and userId=#{userId} and userPhone=#{userPhone}
+		]]>
+	</select>
+	
+	<insert id="registerInfo" parameterType="UserDto">
+		<![CDATA[ 
+			insert into users(userId, userName, userPwd, userAddress, userPhone) 
+			values(#{userId},#{userName},#{userPwd},#{userAddress},#{userPhone})
+		]]>
+	</insert>
+	
+	<update id="updateInfo" parameterType="UserDto">
+		<![CDATA[
+			update users
+			set userPwd = #{userPwd}, userAddress = #{userAddress}, userName = #{userName}, userPhone = #{userPhone}
+			where userId=#{userId}
+		]]>
+	</update>
+	
+	<select id="searchById"  parameterType="string"  resultType="UserDto">
+		<![CDATA[
+			select * 
+			from users
+			where userId = #{userId}
+		]]>
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.String">
+	<![CDATA[
+		delete
+		from users
+		where userId = #{userId}
+	]]>
+	</delete>
+</mapper>
