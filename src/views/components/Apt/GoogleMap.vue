@@ -6,6 +6,19 @@
         v-for="(item, index) in aptlist"
         :position="{ lat: item.lat, lng: item.lng }"
       >
+        <gmap-info-window :opened="true">
+          <div>
+            <h5>
+              <strong>{{ item.aptName }}</strong>
+            </h5>
+            <div class="detail">
+              <strong>거래 금액: </strong
+              >{{ item.houseDealDto.dealAmount.trim() }}만원
+              <br />
+              <strong>면적: </strong>{{ item.houseDealDto.area }}m<sup>2</sup>
+            </div>
+          </div>
+        </gmap-info-window>
       </gmap-marker>
     </gmap-map>
   </div>
@@ -38,3 +51,13 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.detail {
+  font-size: large;
+}
+
+.detail strong {
+  color: #32325d;
+}
+</style>

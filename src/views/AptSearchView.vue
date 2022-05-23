@@ -202,9 +202,7 @@ export default {
       let sidoName = this.sido.name === undefined ? " " : this.sido.name;
       let gugunName = this.gugun.name === undefined ? " " : this.gugun.name;
       let dongName = this.dong.name === undefined ? " " : this.dong.name;
-
-      console.log(this.dong.lat, this.dong.lng);
-
+      //console.log(this.dong.lat, this.dong.lng);
       return sidoName + " " + gugunName + " " + dongName;
     },
   },
