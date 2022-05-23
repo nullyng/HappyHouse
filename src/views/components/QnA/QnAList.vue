@@ -62,7 +62,7 @@
         ></b-pagination> -->
     </div>
     <div class="d-flex flex-row-reverse mb-5">
-      <b-button variant="primary" to="/qna/write">글작성</b-button>
+      <b-button variant="primary" @click="confirm">글작성</b-button>
     </div>
     <!-- <b-container>
       {{ selected }}
@@ -173,6 +173,16 @@ export default {
           break;
       }
     },
+    confirm() {
+      let token = sessionStorage.getItem("access-token");
+      if(token == null) {
+        alert("로그인이 필요한 기능입니다.");
+        this.$router.push("/user");
+      }
+      else {
+        this.$router.push({name: 'write'});
+      }
+    }
   },
   computed: {
     rows() {
