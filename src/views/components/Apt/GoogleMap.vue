@@ -26,11 +26,15 @@ export default {
   },
   data() {
     return {
-      center: { lat: Number(this.lat), lng: Number(this.lng) },
       locationMarkers: [],
       locPlaces: [],
       existingPlace: null,
     };
+  },
+  computed: {
+    center() {
+      return { lat: Number(this.lat), lng: Number(this.lng) };
+    },
   },
 };
 </script>
