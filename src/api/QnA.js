@@ -14,6 +14,24 @@ function getQnA(id, success, fail) {
         .catch(fail);
 }
 
+function getQnAByWriter(writer, success, fail) {
+    api.get(`/board/searchbywriter?writer=${writer}`)
+        .then(success)
+        .catch(fail);
+}
+
+function getQnAByContents(contents, success, fail) {
+    api.get(`/board/searchbycontents?contents=${contents}`)
+        .then(success)
+        .catch(fail);
+}
+
+function getQnAByTitle(title, success, fail) {
+    api.get(`/board/searchbytitle?title=${title}`)
+        .then(success)
+        .catch(fail);
+}
+
 function createQnA(item, success, fail) {
     api.post(`/board/`, item)
         .then(success)
@@ -32,4 +50,4 @@ function updateQnA(item, success, fail) {
         .catch(fail);
 }
 
-export { listQnA, getQnA, deleteQnA, updateQnA, createQnA };
+export { listQnA, getQnA, getQnAByContents, getQnAByWriter, getQnAByTitle, deleteQnA, updateQnA, createQnA };
