@@ -15,6 +15,6 @@ public interface CodeMapper {
     @Select("SELECT LEFT(gugunCode, 5) as code, gugunName as name FROM guguncode WHERE gugunCode LIKE concat(#{regcode},'%')")
     List<CodeDto> getGugunList(@Param("regcode") String regcode);
 
-    @Select("SELECT LEFT(dongCode, 8) as code, dongName as name FROM baseaddress WHERE dongCode LIKE concat(#{regcode}, '%')")
+    @Select("SELECT LEFT(dongCode, 8) as code, dongName as name, lat, lng FROM baseaddress WHERE dongCode LIKE concat(#{regcode}, '%')")
     List<CodeDto> getDongList(@Param("regcode") String regcode);
 }
