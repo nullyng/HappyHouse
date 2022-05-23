@@ -2,7 +2,7 @@
   <div class="aptinfo p-3 mb-3">
     <h3 class="display-4">{{ param.aptName }}</h3>
     <div class="detail">
-      <strong>거래 금액: </strong>{{ param.houseDealDto.dealAmount.trim() }}원
+      <strong>거래 금액: </strong>{{ param.houseDealDto.dealAmount.trim() }}만원
       <br />
       <strong>면적: </strong>{{ param.houseDealDto.area }}m<sup>2</sup>
       <div></div>
