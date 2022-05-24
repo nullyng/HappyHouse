@@ -159,7 +159,6 @@ export default {
         id: this.id,
         pwd: this.pwd,
       };
-      console.log(user);
       await this.userConfirm(user);
       let token = sessionStorage.getItem("access-token");
       if (this.isLogin) {
