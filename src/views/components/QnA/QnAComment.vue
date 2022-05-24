@@ -15,13 +15,26 @@
             <b-col> {{ item.writer }} | {{ item.regDate }} </b-col>
             <b-col class="d-flex justify-content-end text-light">
               <div v-if="currentUserId === 'admin'">
-                <span>수정&nbsp;</span> |
+                <span @click="convertModify">수정&nbsp;</span> |
                 <span @click="removeComment(item.id)">&nbsp;삭제</span>
               </div>
             </b-col>
           </b-row>
-          <b-row class="mt-3">
+          <b-row class="mt-3" v-if="!isModify">
             <b-col>{{ item.contents }}</b-col>
+          </b-row>
+          <b-row class="p-3">
+            <b-input-group v-if="isModify">
+              <b-form-input v-model="item.contents"></b-form-input>
+              <b-input-group-append>
+                <b-button variant="primary" @click="editComment(item)"
+                  >등록</b-button
+                >
+                <b-button variant="primary" @click="convertModify"
+                  >취소</b-button
+                >
+              </b-input-group-append>
+            </b-input-group>
           </b-row>
         </b-row>
       </div>
@@ -41,6 +54,7 @@ export default {
   data() {
     return {
       contents: "",
+      isModify: false,
     };
   },
   props: {
@@ -62,7 +76,11 @@ export default {
   },
   methods: {
     ...mapGetters(userStore, ["checkUserInfo"]),
-    ...mapActions(commentStore, ["createComment", "deleteComment"]),
+    ...mapActions(commentStore, [
+      "createComment",
+      "deleteComment",
+      "modifyComment",
+    ]),
     // 댓글 등록
     registerComment() {
       const userInfo = this.checkUserInfo();
@@ -88,6 +106,20 @@ export default {
       if (confirm("삭제하시겠습니까?")) {
         this.deleteComment(item);
       }
+    },
+    // 수정 화면 전환
+    convertModify() {
+      this.isModify = !this.isModify;
+    },
+    // 댓글 수정
+    editComment(item) {
+      const comment = {
+        contents: item.contents,
+        id: item.id,
+      };
+      // console.log(item);
+      this.modifyComment(comment);
+      // this.convertModify();
     },
   },
 };

@@ -1,6 +1,11 @@
 import jwt_decode from "jwt-decode";
 import axios from "axios";
-import { getCommentList, createComment, deleteComment } from "@/api/comment";
+import {
+  getCommentList,
+  createComment,
+  deleteComment,
+  modifyComment,
+} from "@/api/comment";
 
 const commentStore = {
   namespaced: true,
@@ -57,6 +62,18 @@ const commentStore = {
               console.log(error);
             }
           );
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    modifyComment({ commit }, comment) {
+      console.log(comment);
+      modifyComment(
+        comment,
+        (response) => {
+          console.log(response);
         },
         (error) => {
           console.log(error);
