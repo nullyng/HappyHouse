@@ -71,11 +71,8 @@
                 >
                 </base-input>
                 <div class="text-center">
-                  <base-button
-                    v-on:click="fetchData()"
-                    type="primary"
-                    class="my-4"
-                    >계정 생성</base-button
+                  <b-button v-on:click="regist()" variant="primary" class="my-4"
+                    >계정 생성</b-button
                   >
                 </div>
               </form>
@@ -87,7 +84,8 @@
   </div>
 </template>
 <script>
-import axios from "axios";
+import { regist } from "@/api/user.js";
+
 export default {
   data() {
     return {
@@ -99,8 +97,7 @@ export default {
     };
   },
   methods: {
-    fetchData() {
-      console.log(this.id);
+    regist() {
       let temp = {
         userId: this.id,
         userName: this.name,
@@ -108,15 +105,13 @@ export default {
         userAddress: this.address,
         userPwd: this.pwd,
       };
-      console.log(temp);
-      axios
-        .post("http://localhost:8080/user/regist", temp)
-        .then((res) => {
+      regist(
+        temp,
+        (res) => {
           console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        },
+        (err) => {}
+      );
     },
   },
   created() {},

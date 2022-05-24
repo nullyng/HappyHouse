@@ -10,6 +10,10 @@ async function getData(success, fail) {
   await api.get(`/user/`).then(success).catch(fail);
 }
 
+async function regist(temp, success, fail) {
+  await api.post(`/user/regist`, temp).then(success).catch(fail);
+}
+
 async function updateUser(success, fail) {
   await api.put(`/user`).then(success).catch(fail);
 }
@@ -27,4 +31,4 @@ function logout(success, fail) {
   api.get(`/user/logout`).then(success).catch(fail);
 }
 
-export { fetchData, getData, updateUser, deleteUser, findById, logout };
+export { fetchData, getData, regist, updateUser, deleteUser, findById, logout };
