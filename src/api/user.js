@@ -14,12 +14,12 @@ async function regist(temp, success, fail) {
   await api.post(`/user/regist`, temp).then(success).catch(fail);
 }
 
-async function updateUser(success, fail) {
-  await api.put(`/user`).then(success).catch(fail);
+async function updateUser(data, success, fail) {
+  await api.put(`/user/`, data).then(success).catch(fail);
 }
 
 async function deleteUser(success, fail) {
-  await api.delete(`/user`).then(success).catch(fail);
+  await api.delete(`/user/`).then(success).catch(fail);
 }
 
 async function findById(userid, success, fail) {

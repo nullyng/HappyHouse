@@ -120,6 +120,7 @@ export default {
       };
       console.log(data);
       updateUser(
+        data,
         (res) => {
           console.log(res);
         },

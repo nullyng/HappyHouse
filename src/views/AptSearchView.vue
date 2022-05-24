@@ -32,8 +32,13 @@
               </template>
               <div class="select-boxes">
                 <div class="select-box col">
-                  <h5>시/도</h5>
-                  <select
+                  <!-- <h5>시/도</h5> -->
+                  <b-form-select
+                    v-model="sido"
+                    :options="sidos"
+                    @change="gugunList"
+                  ></b-form-select>
+                  <!-- <select
                     id="sidoList"
                     class="form-select"
                     aria-label="시/도 선택"
@@ -47,42 +52,22 @@
                     >
                       {{ item.name }}
                     </option>
-                  </select>
+                  </select> -->
                 </div>
                 <div class="select-box col">
-                  <h5>구/군</h5>
-                  <select
-                    id="gugunList"
-                    class="form-select"
-                    aria-label="구/군 선택"
+                  <!-- <h5>구/군</h5> -->
+                  <b-form-select
                     v-model="gugun"
+                    :options="guguns"
                     @change="dongList"
-                  >
-                    <option
-                      v-for="item in guguns"
-                      :value="item"
-                      :key="item.code"
-                    >
-                      {{ item.name }}
-                    </option>
-                  </select>
+                  ></b-form-select>
                 </div>
                 <div class="select-box col">
-                  <h5>동</h5>
-                  <select
-                    id="dongList"
-                    class="form-select"
-                    aria-label="동 선택"
+                  <!-- <h5>동</h5> -->
+                  <b-form-select
                     v-model="dong"
-                  >
-                    <option
-                      v-for="item in dongs"
-                      :value="item"
-                      :key="item.code"
-                    >
-                      {{ item.name }}
-                    </option>
-                  </select>
+                    :options="dongs"
+                  ></b-form-select>
                 </div>
                 <div class="btn-wrapper ml-2 mr-2">
                   <b-button
@@ -161,7 +146,16 @@ export default {
     sidoList() {
       sidoList(
         (res) => {
-          this.sidos = res.data;
+          this.sidos = [];
+          for (var index in res.data) {
+            this.sidos.push({
+              value: {
+                code: res.data[index].code,
+                name: res.data[index].name,
+              },
+              text: res.data[index].name,
+            });
+          }
         },
         (err) => {}
       );
@@ -170,8 +164,17 @@ export default {
       gugunList(
         this.sido.code + "*",
         (res) => {
-          this.guguns = res.data;
+          this.guguns = [];
           this.dongs = [];
+          for (var index in res.data) {
+            this.guguns.push({
+              value: {
+                code: res.data[index].code,
+                name: res.data[index].name,
+              },
+              text: res.data[index].name,
+            });
+          }
         },
         (err) => {}
       );
@@ -180,7 +183,16 @@ export default {
       dongList(
         this.gugun.code + "*",
         (res) => {
-          this.dongs = res.data;
+          this.dongs = [];
+          for (var index in res.data) {
+            this.dongs.push({
+              value: {
+                code: res.data[index].code,
+                name: res.data[index].name,
+              },
+              text: res.data[index].name,
+            });
+          }
         },
         (err) => {}
       );
