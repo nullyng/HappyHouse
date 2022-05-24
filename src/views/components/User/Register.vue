@@ -108,7 +108,7 @@ export default {
       regist(
         temp,
         (res) => {
-          console.log(res);
+          this.$router.push("/user/login");
         },
         (err) => {}
       );

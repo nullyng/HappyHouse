@@ -20,7 +20,6 @@
               <strong>아이디</strong>
               <base-input
                 v-model="name"
-                v-bind="name"
                 alternative
                 class="mb-4"
                 v-bind:placeholder="originName"
@@ -30,7 +29,6 @@
               <strong>전화번호</strong>
               <base-input
                 v-model="phone"
-                v-bind="phone"
                 alternative
                 class="mb-4"
                 v-bind:placeholder="originPhone"
@@ -40,7 +38,6 @@
               <strong>이메일</strong>
               <base-input
                 v-model="address"
-                v-bind="address"
                 alternative
                 class="mb-4"
                 v-bind:placeholder="originAddress"
@@ -50,7 +47,6 @@
               <strong>비밀번호</strong>
               <base-input
                 v-model="pwd"
-                v-bind="pwd"
                 alternative
                 class="mb-4"
                 v-bind:placeholder="originPwd"
