@@ -1,7 +1,6 @@
 import jwt_decode from "jwt-decode";
 import axios from "axios";
-import { getCommentList, createComment } from "@/api/comment";
-import { create } from "nouislider";
+import { getCommentList, createComment, deleteComment } from "@/api/comment";
 
 const commentStore = {
   namespaced: true,
@@ -19,7 +18,6 @@ const commentStore = {
       getCommentList(
         id,
         (response) => {
-          console.log(response);
           commit("SET_COMMENT_LIST", response.data);
         },
         (error) => {
@@ -34,7 +32,25 @@ const commentStore = {
           getCommentList(
             comment.boardId,
             (response) => {
-              console.log(response);
+              commit("SET_COMMENT_LIST", response.data);
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    deleteComment({ commit }, item) {
+      deleteComment(
+        item.commentId,
+        (response) => {
+          getCommentList(
+            item.boardId,
+            (response) => {
               commit("SET_COMMENT_LIST", response.data);
             },
             (error) => {
