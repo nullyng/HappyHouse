@@ -73,7 +73,15 @@ const commentStore = {
       modifyComment(
         comment,
         (response) => {
-          console.log(response);
+          getCommentList(
+            comment.boardId,
+            (response) => {
+              commit("SET_COMMENT_LIST", response.data);
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
         },
         (error) => {
           console.log(error);

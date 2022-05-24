@@ -116,10 +116,11 @@ export default {
       const comment = {
         contents: item.contents,
         id: item.id,
+        boardId: item.boardId,
       };
       // console.log(item);
       this.modifyComment(comment);
-      // this.convertModify();
+      this.convertModify();
     },
   },
 };

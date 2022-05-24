@@ -54,13 +54,13 @@
           }}</router-link>
         </template> -->
       </b-table>
-      <b-pagination
+      <!-- <b-pagination
         class="customPagination"
         v-model="currentPage"
         :total-rows="rows"
         :per-page="perPage"
         aria-controls="qnaList"
-      ></b-pagination>
+      ></b-pagination> -->
     </div>
     <div class="d-flex flex-row-reverse mb-5">
       <b-button variant="primary" :to="{ name: 'write' }">글작성</b-button>

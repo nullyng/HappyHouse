@@ -10,7 +10,7 @@ public interface CommentMapper {
     @Insert("INSERT INTO comment (writer, boardId, regdate, contents) VALUES (#{writer}, #{boardId}, #{regDate}, #{contents})")
     int insert(CommentDto commentDto);
 
-    @Select("SELECT `id`, `boardId`, `writer`, `regdate`, `contents` FROM comment WHERE boardId = #{boardId}")
+    @Select("SELECT * FROM comment WHERE boardId = #{boardId}")
     List<CommentDto> getCommentsByBoardId(@Param("boardId") Long boardId);
 
     @Delete("DELETE FROM comment WHERE id = #{commentId}")
@@ -19,6 +19,6 @@ public interface CommentMapper {
     @Select("SELECT * FROM comment WHERE id = #{commentId}")
     CommentDto getCommentById(@Param("commentId") Long commentId);
 
-    @Update("UPDATE FROM comment SET contents = #{contents} WHERE id = #{commentId}")
+    @Update("UPDATE comment SET contents = #{commentDto.contents} WHERE id = #{commentId}")
     int updateById(@Param("commentId") Long commentId, CommentDto commentDto);
 }
