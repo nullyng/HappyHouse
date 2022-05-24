@@ -1,6 +1,6 @@
 <template>
   <div class="container mb-5">
-    <b-input-group>
+    <b-input-group v-if="currentUserId === 'admin'">
       <b-form-input v-model="contents"></b-form-input>
       <b-input-group-append>
         <b-button variant="primary" @click="registerComment"
@@ -14,8 +14,10 @@
           <b-row>
             <b-col> {{ item.writer }} | {{ item.regDate }} </b-col>
             <b-col class="d-flex justify-content-end text-light">
-              <span>수정&nbsp;</span> |
-              <span @click="removeComment(item.id)">&nbsp;삭제</span>
+              <div v-if="currentUserId === 'admin'">
+                <span>수정&nbsp;</span> |
+                <span @click="removeComment(item.id)">&nbsp;삭제</span>
+              </div>
             </b-col>
           </b-row>
           <b-row class="mt-3">
@@ -29,6 +31,7 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
+import jwt_decode from "jwt-decode";
 
 const userStore = "userStore";
 const commentStore = "commentStore";
@@ -48,6 +51,14 @@ export default {
   },
   computed: {
     ...mapState(commentStore, ["commentList"]),
+    currentUserId: function () {
+      let userId = "";
+      const token = sessionStorage.getItem("access-token");
+      if (token != null) {
+        userId = jwt_decode(token).userid;
+      }
+      return userId;
+    },
   },
   methods: {
     ...mapGetters(userStore, ["checkUserInfo"]),
