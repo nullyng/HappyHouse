@@ -94,8 +94,11 @@
   </div>
 </template>
 <script>
+import { mapActions, mapState, mapMutations } from "vuex";
 import { getData, updateUser, deleteUser } from "@/api/user.js";
 import Modal from "@/components/Modal.vue";
+
+const userStore = "userStore";
 
 export default {
   components: {
@@ -119,6 +122,8 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(userStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
+    ...mapActions(userStore, ["logout"]),
     fetchData() {
       getData(
         (res) => {
@@ -162,6 +167,9 @@ export default {
     closeModal1() {
       this.modals.modal1 = false;
       sessionStorage.removeItem("access-token");
+      this.logout();
+      // this.SET_IS_LOGIN(false);
+      this.SET_USER_INFO(null);
       this.$router.push("/");
     },
   },
