@@ -7,7 +7,7 @@ public class CommentDto {
     private String regDate;
     private String contents;
 
-    public CommentDto(Long id, Long boardId, String writer, String regDate, String contents) {
+    public CommentDto(Long id, String writer, Long boardId, String regDate, String contents) {
         this.id = id;
         this.boardId = boardId;
         this.writer = writer;

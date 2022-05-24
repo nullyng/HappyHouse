@@ -17,4 +17,8 @@ function deleteComment(id, success, fail) {
   api.delete(`/comment/${id}`).then(success).catch(fail);
 }
 
-export { getCommentList, createComment, deleteComment };
+function modifyComment(comment, success, fail) {
+  api.put(`/comment/${comment.id}`, comment).then(success).catch(fail);
+}
+
+export { getCommentList, createComment, deleteComment, modifyComment };

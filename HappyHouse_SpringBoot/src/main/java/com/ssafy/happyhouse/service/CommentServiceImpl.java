@@ -37,8 +37,9 @@ public class CommentServiceImpl implements CommentService{
 
     @Override
     public int updateComment(Long commentId, CommentDto commentDto) {
+    	System.out.println(commentId + " " + commentDto);
         CommentDto updateDto = commentMapper.getCommentById(commentId);
         updateDto.setContents(commentDto.getContents());
-        return commentMapper.updateById(commentId, updateDto);
+        return commentMapper.updateById(commentId, commentDto);
     }
 }
