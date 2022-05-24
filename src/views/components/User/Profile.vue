@@ -17,7 +17,7 @@
           <div class="px-5">
             <h1 class="mt-5" style="font-weight: 700">내 정보</h1>
             <div class="mt-5">
-              <strong>아이디</strong>
+              <strong>이름</strong>
               <base-input
                 v-model="name"
                 alternative
@@ -55,13 +55,14 @@
               </base-input>
               <div class="text-center">
                 <base-button
-                  v-on:click="updateUser()"
+                  v-on:click="updateUser(), (modals.modal0 = true)"
                   type="primary"
                   class="my-4"
                   >수정</base-button
                 >
+
                 <base-button
-                  v-on:click="deleteUser()"
+                  v-on:click="deleteUser(), (modals.modal1 = true)"
                   type="primary"
                   class="my-4"
                   >탈퇴</base-button
@@ -72,12 +73,34 @@
         </card>
       </div>
     </section>
+    <div>
+      <modal :show.sync="modals.modal0">
+        <div>수정이 완료되었습니다.</div>
+        <template slot="footer">
+          <b-button type="secondary" @click="modals.modal0 = false"
+            >닫기</b-button
+          >
+        </template>
+      </modal>
+    </div>
+    <div>
+      <modal :show.sync="modals.modal1">
+        <div>탈퇴가 완료되었습니다.</div>
+        <template slot="footer">
+          <b-button type="secondary" @click="closeModal1">닫기</b-button>
+        </template>
+      </modal>
+    </div>
   </div>
 </template>
 <script>
 import { getData, updateUser, deleteUser } from "@/api/user.js";
+import Modal from "@/components/Modal.vue";
 
 export default {
+  components: {
+    Modal,
+  },
   data() {
     return {
       id: null,
@@ -89,6 +112,10 @@ export default {
       originPhone: null,
       originAddress: null,
       originPwd: null,
+      modals: {
+        modal0: false,
+        modal1: false,
+      },
     };
   },
   methods: {
@@ -119,7 +146,7 @@ export default {
       updateUser(
         data,
         (res) => {
-          console.log(res);
+          // console.log(res);
         },
         (error) => {}
       );
@@ -127,10 +154,15 @@ export default {
     deleteUser() {
       deleteUser(
         (res) => {
-          console.log(res);
+          // console.log(res);
         },
         (error) => {}
       );
+    },
+    closeModal1() {
+      this.modals.modal1 = false;
+      sessionStorage.removeItem("access-token");
+      this.$router.push("/");
     },
   },
   created() {
