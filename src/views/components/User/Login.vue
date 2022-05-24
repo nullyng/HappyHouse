@@ -1,15 +1,20 @@
 <template>
-  <section class="section section-shaped section-lg my-0">
-    <div class="shape shape-style-1 bg-gradient-default">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
+  <div>
+    <section class="section section-shaped my-0" style="padding-bottom: 2rem">
+      <div class="shape shape-style-1 bg-gradient-default">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="container mb-0">
+        <h1 style="font-weight: 700; color: white">로그인</h1>
+      </div>
+    </section>
     <div class="container pt-lg-md">
       <div class="row justify-content-center">
         <div class="col-lg-5">
@@ -22,14 +27,14 @@
           >
             <template>
               <div class="text-center text-muted mb-4">
-                <small>Sign in with credentials</small>
+                <small>서비스를 이용하려면 로그인 하세요.</small>
               </div>
               <form role="form">
                 <base-input
                   v-model="id"
                   alternative
                   class="mb-3"
-                  placeholder="ID"
+                  placeholder="아이디"
                   addon-left-icon="ni ni-email-83"
                 >
                 </base-input>
@@ -37,19 +42,23 @@
                   v-model="pwd"
                   alternative
                   type="password"
-                  placeholder="Password"
+                  placeholder="비밀번호"
                   addon-left-icon="ni ni-lock-circle-open"
                 >
                 </base-input>
-                <div class="text-center">
+                <div class="text-center mt-4">
                   <!-- <base-button
                     v-on:click="fetchData"
                     type="primary"
                     class="my-4"
                     >Sign In</base-button
                   > -->
-                  <b-button variant="primary" @click="confirm">
-                    Sign In
+                  <b-button
+                    variant="primary"
+                    style="font-size: large"
+                    @click="confirm"
+                  >
+                    로그인
                   </b-button>
                 </div>
               </form>
@@ -58,7 +67,7 @@
           <div class="row mt-3">
             <div class="col-6">
               <a href="#" class="text-light" @click="modals.modal0 = true">
-                <small>Forgot password?</small>
+                <small>비밀번호를 잊으셨나요?</small>
               </a>
               <div>
                 <modal :show.sync="modals.modal0">
@@ -106,14 +115,14 @@
             </div>
             <div class="col-6 text-right">
               <a href="/register" class="text-light">
-                <small>Create new account</small>
+                <small>새 계정 만들기</small>
               </a>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 <script>
 import axios from "axios";

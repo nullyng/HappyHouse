@@ -1,16 +1,21 @@
 <template>
-  <section class="section section-shaped section-lg my-0">
-    <div class="shape shape-style-1 bg-gradient-default">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-    <div class="container pt-lg-md">
+  <div>
+    <section class="section section-shaped my-0" style="padding-bottom: 2rem">
+      <div class="shape shape-style-1 bg-gradient-default">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="container mb-0">
+        <h1 style="font-weight: 700; color: white">회원가입</h1>
+      </div>
+    </section>
+    <div class="container pt-lg-md mb-5">
       <div class="row justify-content-center">
         <div class="col-lg-5">
           <card
@@ -22,14 +27,14 @@
           >
             <template>
               <div class="text-center text-muted mb-4">
-                <small>Sign up with credentials</small>
+                <small>회원가입을 통해 더 많은 서비스를 경험해보세요.</small>
               </div>
               <form role="form">
                 <base-input
                   v-model="id"
                   alternative
                   class="mb-3"
-                  placeholder="ID"
+                  placeholder="아이디"
                   addon-left-icon="ni ni-hat-3"
                 >
                 </base-input>
@@ -37,23 +42,23 @@
                   v-model="name"
                   alternative
                   class="mb-3"
-                  placeholder="Name"
-                  addon-left-icon="ni ni-hat-3"
+                  placeholder="이름"
+                  addon-left-icon="ni ni-circle-08"
                 >
                 </base-input>
                 <base-input
                   v-model="phone"
                   alternative
                   class="mb-3"
-                  placeholder="Phone"
-                  addon-left-icon="ni ni-email-83"
+                  placeholder="전화번호"
+                  addon-left-icon="ni ni-mobile-button"
                 >
                 </base-input>
                 <base-input
                   v-model="address"
                   alternative
                   class="mb-3"
-                  placeholder="Address"
+                  placeholder="이메일"
                   addon-left-icon="ni ni-email-83"
                 >
                 </base-input>
@@ -61,7 +66,7 @@
                   v-model="pwd"
                   alternative
                   type="password"
-                  placeholder="Password"
+                  placeholder="비밀번호"
                   addon-left-icon="ni ni-lock-circle-open"
                 >
                 </base-input>
@@ -70,7 +75,7 @@
                     v-on:click="fetchData()"
                     type="primary"
                     class="my-4"
-                    >Create account</base-button
+                    >계정 생성</base-button
                   >
                 </div>
               </form>
@@ -79,7 +84,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 <script>
 import axios from "axios";
