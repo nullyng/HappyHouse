@@ -73,7 +73,7 @@
                 <modal :show.sync="modals.modal0">
                   <template slot="header">
                     <h5 class="modal-title" id="exampleModalLabel">
-                      Modal title
+                      비밀번호 찾기
                     </h5>
                   </template>
                   <div>
@@ -81,7 +81,7 @@
                       v-model="findpwd_id"
                       alternative
                       class="mb-3"
-                      placeholder="ID"
+                      placeholder="아이디"
                       addon-left-icon="ni ni-email-83"
                     >
                     </base-input>
@@ -89,32 +89,32 @@
                       v-model="findpwd_name"
                       alternative
                       class="mb-3"
-                      placeholder="name"
-                      addon-left-icon="ni ni-email-83"
+                      placeholder="이름"
+                      addon-left-icon="ni ni-circle-08"
                     >
                     </base-input>
                     <base-input
                       v-model="findpwd_phone"
                       alternative
                       class="mb-3"
-                      placeholder="phone"
-                      addon-left-icon="ni ni-email-83"
+                      placeholder="전화번호"
+                      addon-left-icon="ni ni-mobile-button"
                     >
                     </base-input>
                   </div>
                   <template slot="footer">
                     <base-button type="secondary" @click="modals.modal0 = false"
-                      >Close</base-button
+                      >닫기</base-button
                     >
                     <base-button v-on:click="findPwd()" type="primary"
-                      >FIND PWD</base-button
+                      >비밀번호 찾기</base-button
                     >
                   </template>
                 </modal>
               </div>
             </div>
             <div class="col-6 text-right">
-              <a href="/register" class="text-light">
+              <a href="/user/register" class="text-light">
                 <small>새 계정 만들기</small>
               </a>
             </div>
