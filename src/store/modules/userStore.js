@@ -40,7 +40,7 @@ const userStore = {
             sessionStorage.setItem("access-token", token);
           } else {
             commit("SET_IS_LOGIN", false);
-            commit("SET_IT_LOGIN_ERROR", true);
+            commit("SET_IS_LOGIN_ERROR", true);
           }
         },
         (error) => {

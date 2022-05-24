@@ -14,7 +14,7 @@
       <div class="container pt-lg-md">
         <div class="row justify-content-center">
           <div class="col-lg-10">
-            <h1 class="mb-4" style="color: white; font-weight: bold">
+            <h1 class="mb-4" style="color: white; font-weight: 700">
               아파트 조회
             </h1>
             <card
