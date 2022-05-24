@@ -7,7 +7,14 @@ function getCommentList(id, success, fail) {
 }
 
 function createComment(comment, success, fail) {
-  api.post(`/comment/${comment.writer}/${comment.boardId}`, comment).then(success).catch(fail);
+  api
+    .post(`/comment/${comment.writer}/${comment.boardId}`, comment)
+    .then(success)
+    .catch(fail);
 }
 
-export { getCommentList, createComment };
+function deleteComment(id, success, fail) {
+  api.delete(`/comment/${id}`).then(success).catch(fail);
+}
+
+export { getCommentList, createComment, deleteComment };

@@ -41,11 +41,17 @@
         <div class="row justify-content-end pt-2 mr-1">
           <b-button variant="primary" to="/qna">목록</b-button>
           <b-button
+            v-if="currentUserId === writer"
             variant="primary"
             :to="{ name: 'modify', params: { no: this.$route.params.no } }"
             >수정</b-button
           >
-          <b-button variant="primary" @click="deleteQnA">삭제</b-button>
+          <b-button
+            v-if="currentUserId === writer"
+            variant="primary"
+            @click="deleteQnA"
+            >삭제</b-button
+          >
         </div>
       </b-form>
     </div>
@@ -56,6 +62,7 @@
 <script>
 import { getQnA, deleteQnA } from "@/api/QnA";
 import QnaComment from "./QnAComment.vue";
+import jwt_decode from "jwt-decode";
 
 export default {
   name: "QnADetail",
@@ -84,8 +91,16 @@ export default {
       }
     );
   },
-  mounted() {},
-
+  computed: {
+    currentUserId: function () {
+      let userId = "";
+      const token = sessionStorage.getItem("access-token");
+      if (token != null) {
+        userId = jwt_decode(token).userid;
+      }
+      return userId;
+    },
+  },
   methods: {
     deleteQnA() {
       deleteQnA(this.$route.params.no, (response) => {

@@ -1,9 +1,11 @@
 <template>
   <div class="container mb-5">
-    <b-input-group>
+    <b-input-group v-if="currentUserId === 'admin'">
       <b-form-input v-model="contents"></b-form-input>
       <b-input-group-append>
-        <b-button variant="primary" @click="registerComment">답변 등록</b-button>
+        <b-button variant="primary" @click="registerComment"
+          >답변 등록</b-button
+        >
       </b-input-group-append>
     </b-input-group>
     <b-container id="commentList">
@@ -11,7 +13,12 @@
         <b-row class="flex-column border border-light rounded p-4">
           <b-row>
             <b-col> {{ item.writer }} | {{ item.regDate }} </b-col>
-            <b-col> <span>수정</span> | <span>삭제</span> </b-col>
+            <b-col class="d-flex justify-content-end text-light">
+              <div v-if="currentUserId === 'admin'">
+                <span>수정&nbsp;</span> |
+                <span @click="removeComment(item.id)">&nbsp;삭제</span>
+              </div>
+            </b-col>
           </b-row>
           <b-row class="mt-3">
             <b-col>{{ item.contents }}</b-col>
@@ -24,6 +31,7 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
+import jwt_decode from "jwt-decode";
 
 const userStore = "userStore";
 const commentStore = "commentStore";
@@ -43,22 +51,50 @@ export default {
   },
   computed: {
     ...mapState(commentStore, ["commentList"]),
+    currentUserId: function () {
+      let userId = "";
+      const token = sessionStorage.getItem("access-token");
+      if (token != null) {
+        userId = jwt_decode(token).userid;
+      }
+      return userId;
+    },
   },
   methods: {
     ...mapGetters(userStore, ["checkUserInfo"]),
-    ...mapActions(commentStore, ["createComment"]),
+    ...mapActions(commentStore, ["createComment", "deleteComment"]),
+    // 댓글 등록
     registerComment() {
       const userInfo = this.checkUserInfo();
-      const comment = {
-        writer: userInfo.userId,
+      if (userInfo == null) {
+        alert("로그인이 필요한 서비스입니다.");
+        this.$router.push("/user");
+      } else {
+        const comment = {
+          writer: userInfo.userId,
+          boardId: this.boardId,
+          contents: this.contents,
+        };
+        this.createComment(comment);
+        this.contents = "";
+      }
+    },
+    // 댓글 삭제
+    removeComment(id) {
+      const item = {
+        commentId: id,
         boardId: this.boardId,
-        contents: this.contents,
       };
-      console.log("register!");
-      this.createComment(comment);
+      if (confirm("삭제하시겠습니까?")) {
+        this.deleteComment(item);
+      }
     },
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+span:hover {
+  cursor: pointer;
+}
+</style>

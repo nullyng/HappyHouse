@@ -50,6 +50,7 @@ const userStore = {
     },
     getUserInfo({ commit }, token) {
       let decode_token = jwt_decode(token);
+      console.log(decode_token);
       getData(
         (response) => {
           commit("SET_USER_INFO", response.data);
