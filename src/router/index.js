@@ -1,13 +1,8 @@
 // export default router;
 import Vue from "vue";
 import Router from "vue-router";
-// import AppHeader from "@/layout/AppHeader";
-// import AppFooter from "@/layout/AppFooter";
 import HomeView from "@/views/HomeView.vue";
 import QnAView from "@/views/QnAView.vue";
-// import LoginView from "@/views/LoginView.vue";
-// import RegisterView from "@/views/RegisterView.vue";
-// import AptSearchView from "@/views/AptSearchView.vue";
 
 Vue.use(Router);
 
@@ -29,7 +24,7 @@ export default new Router({
         {
           path: "login",
           name: "login",
-          component: () => import("@/views/components/User/LoginView.vue"),
+          component: () => import("@/views/components/User/Login.vue"),
         },
         {
           path: "register",
@@ -40,7 +35,7 @@ export default new Router({
           path: "profile",
           name: "profile",
           component: () => import("@/views/components/User/Profile.vue"),
-          beforeEnter: function(to, from, next) {
+          beforeEnter: function (to, from, next) {
             let token = sessionStorage.getItem("access-token");
             if (token == null) {
               alert("로그인이 필요합니다.");
@@ -77,7 +72,7 @@ export default new Router({
           path: "write",
           name: "write",
           component: () => import("@/views/components/QnA/QnAWrite.vue"),
-          beforeEnter: function(to, from, next) {
+          beforeEnter: function (to, from, next) {
             let token = sessionStorage.getItem("access-token");
             if (token == null) {
               alert("로그인이 필요합니다.");
@@ -91,7 +86,7 @@ export default new Router({
           path: "modify/:no",
           name: "modify",
           component: () => import("@/views/components/QnA/QnAModify.vue"),
-          beforeEnter: function(to, from, next) {
+          beforeEnter: function (to, from, next) {
             let token = sessionStorage.getItem("access-token");
             if (token == null) {
               alert("로그인이 필요합니다.");
