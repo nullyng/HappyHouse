@@ -38,7 +38,7 @@
               </base-button>
             </div>
             <div class="mt-3">
-              <a href="/register" style="font-size: large"
+              <a href="/user/register" style="font-size: large"
                 ><ins>회원가입 하고 시작하기</ins></a
               >
             </div>
