@@ -12,48 +12,49 @@
       </div>
     </section>
     <section class="section section-skew">
-      <div class="container">
+      <div class="container col-lg-5">
         <card shadow class="card-profile mt--300" no-body>
-          <div class="px-4">
-            <div class="text-center mt-5">
-              name
+          <div class="px-5">
+            <h1 class="mt-5" style="font-weight: 700">내 정보</h1>
+            <div class="mt-5">
+              <strong>아이디</strong>
               <base-input
                 v-model="name"
                 v-bind="name"
                 alternative
-                class="mb-3"
+                class="mb-4"
                 v-bind:placeholder="originName"
-                addon-left-icon="ni ni-email-83"
+                addon-left-icon="ni ni-circle-08"
               >
               </base-input>
-              phone
+              <strong>전화번호</strong>
               <base-input
                 v-model="phone"
                 v-bind="phone"
                 alternative
-                class="mb-3"
+                class="mb-4"
                 v-bind:placeholder="originPhone"
-                addon-left-icon="ni ni-email-83"
+                addon-left-icon="ni ni-mobile-button"
               >
               </base-input>
-              address
+              <strong>이메일</strong>
               <base-input
                 v-model="address"
                 v-bind="address"
                 alternative
-                class="mb-3"
+                class="mb-4"
                 v-bind:placeholder="originAddress"
                 addon-left-icon="ni ni-email-83"
               >
               </base-input>
-              pw
+              <strong>비밀번호</strong>
               <base-input
                 v-model="pwd"
                 v-bind="pwd"
                 alternative
-                class="mb-3"
+                class="mb-4"
                 v-bind:placeholder="originPwd"
-                addon-left-icon="ni ni-email-83"
+                addon-left-icon="ni ni-lock-circle-open"
               >
               </base-input>
               <div class="text-center">
